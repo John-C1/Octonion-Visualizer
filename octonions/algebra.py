@@ -1,6 +1,4 @@
 """
-algebra.py
-
 Provides an implementation of the Octonion algebra using the Cayley-Dickson construction.
 
 The Octonion class allows for:
@@ -61,6 +59,67 @@ class Octonion:
 
 
 def multiply_octonions(o1, o2):
-    # TODO: Multiplication rules.  
-    print("Multiplying octonions in progress...")
-    return Octonion(np.zeros(8))
+    # Octonion multiplication (a,b)(c,d) = (ac - d*b, da + bc*) where a,b,c,d are Quaternions.
+    a, b = to_quaternion_pair(o1)
+    c, d = to_quaternion_pair(o2)
+    c_conj = quaternion_conjugate(c)
+    d_conj = quaternion_conjugate(d)
+    ac = multiply_quaternions(a, c)
+    d_conjb = multiply_quaternions(d_conj,b)
+    da = multiply_quaternions(d,a)
+    bc_conj = multiply_quaternions(b, c_conj)
+
+    result = Octonion(np.concatenate((ac - d_conjb, da + bc_conj)))
+    return result
+
+   
+def quaternion_conjugate(q):
+    # Conjugate of quaternion (a,b)* = (a*, -b) where a, b are complex numbers.
+    if q.shape != (4,):
+        raise ValueError("Quaternion must have 4 components.")
+    return np.array([q[0], -q[1], -q[2], -q[3]])
+
+
+def to_quaternion_pair(octonion):
+    # Must represent octonions as quaternion pair to multiply them.
+    a = octonion.components[:4]
+    b = octonion.components[4:]
+    return a, b
+
+
+def multiply_quaternions(q1, q2):
+    # Quaternion multiplication (a,b)(c,d) = (ac - d*b, da + bc*) where a,b,c,d are complex numbers.
+    if (q1.shape != (4,)) or (q2.shape != (4,)):
+        raise ValueError("Quaternions must have 4 components.")
+    
+    a = np.array(q1[:2])
+    b = np.array(q1[2:])
+    c = np.array(q2[:2])
+    d = np.array(q2[2:])
+    c_conj = np.array([c[0], -c[1]])
+    d_conj = np.array([d[0], -d[1]])
+
+    ac = multiply_complex(a, c)
+    d_conjb = multiply_complex(d_conj, b)
+    da = multiply_complex(d, a)
+    bc_conj = multiply_complex(b, c_conj)
+    return np.concatenate((ac - d_conjb, da + bc_conj))
+
+
+def multiply_complex(i1, i2):
+    # Complex multiplication (a,b)(c,d) = (ac - db,  ad + cb) where a,b,c,d are real numbers.
+    # Note the lack of conjugates, as the conjugate of a real number is itself.
+    if (i1.shape != (2,)) or (i2.shape != (2,)):
+        raise ValueError("Imaginaries must have 2 components.")
+    a = i1[0]
+    b = i1[1]
+    c = i2[0]
+    d = i2[1]
+    ac = a * c
+    db = d * b
+    ad = a * d
+    cb = c * b
+    return np.array([ac - db, ad + cb])
+
+
+
