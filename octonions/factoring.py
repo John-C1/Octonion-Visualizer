@@ -74,17 +74,10 @@ def reverse_pass(oct, quotients, p_values, m_values):
         current = quotients[-1] * u_n
         previous = u_n
 
-        verify_index = -2
         for quotient in reversed(quotients[:-1]):
             new_current = quotient * current + previous
             previous = current
             current = new_current
-
-            expected_m = m_values[verify_index]
-            actual_m = round(current.norm() ** 2)
-            if actual_m != expected_m:
-                print(f"Warning: norm mismatch at step {verify_index}. Expected {expected_m}, got {actual_m}")
-            verify_index -= 1
 
         leftHand.append(current)
         rightHand.append(previous.conjugate())
@@ -121,7 +114,10 @@ def generate_primitive_octonion(n):
     """
     Generates a primitive integral octonion with norm n.
     """
-    for k in range(1, 241):
+    # Shuffle a list so the same octonions aren't given each time through linear search
+    ks = list(range(1, 241))
+    random.shuffle(ks)
+    for k in ks:
         oct = ci.oct_int(n, k)
         if oct is not None and check_primitive(oct):
             return oct
@@ -186,13 +182,15 @@ def oct_to_e8(oct):
     return tup
 
 
-    
 if __name__ == "__main__":
-    p = generate_primitive_octonion(6)
+    p = generate_primitive_octonion(50)
     print("Input:", p)
     left, right = factor_octonion(p)
     print(f"Got {len(left)} left divisors and {len(right)} right divisors")
     # Verify first pair: left[0] * right[0] should equal p
     product = left[0] * right[0]
     print("left[0] * right[0] == p:", (product - p).norm() < 0.01)
-
+    for i in range(10):
+        print(left[i])
+        print(right[i])
+        print("\n")
