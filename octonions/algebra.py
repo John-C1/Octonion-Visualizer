@@ -42,10 +42,7 @@ class Octonion:
         return Octonion(self.components - other.components)
     
     def __repr__(self): 
-        return f"Octonion(x0: {self.components[0]}, x1: {self.components[1]}, \
-                          x2: {self.components[2]}, x3: {self.components[3]}, \
-                          x4: {self.components[4]}, x5: {self.components[5]}, \
-                          x6: {self.components[6]}, x7: {self.components[7]})"
+        return f"{self.components[0]}, {self.components[1]}i, {self.components[2]}j, {self.components[3]}k, {self.components[4]}l, {self.components[5]}li, {self.components[6]}lj, {self.components[7]}lk"
 
     def conjugate(self):
         # A conjugate of an octonion flips the sign of all imaginary comopnents.
