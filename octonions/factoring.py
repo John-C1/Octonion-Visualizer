@@ -185,6 +185,7 @@ def oct_to_e8(oct):
     tup[7] = oct.components[6] - oct.components[7]
     return tup
 
+
     
 if __name__ == "__main__":
     p = generate_primitive_octonion(6)
