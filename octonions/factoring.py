@@ -51,7 +51,6 @@ def forward_pass(p, m):
         quotients.append(q)
         p_values.append(p)
         m_values.append(m)
-        print(m)
         # Find remainder and conugate it.
         r = p - algebra.Octonion([x * m for x in q.components])
         r_conj = r.conjugate()
