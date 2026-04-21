@@ -5,6 +5,7 @@ Implements Rehm's Algorithm for factoring octonions.
 import math
 import random
 
+from sympy.ntheory import divisor_sigma
 import algebra
 import cayley_integers as ci
 
@@ -113,13 +114,20 @@ def generate_primitive_octonion(n):
     """
     Generates a primitive integral octonion with norm n.
     """
-    # Shuffle a list so the same octonions aren't given each time through linear search
-    ks = list(range(1, 241))
-    random.shuffle(ks)
-    for k in ks:
-        oct = ci.oct_int(n, k)
+    k_max = 240 * divisor_sigma(n,3)
+    k_rand = random.randint(1,k_max)
+    for k in range(k_max):
+        k_ind = (k + k_rand) % k_max + 1
+        oct = ci.oct_int(n, k_ind)
         if oct is not None and check_primitive(oct):
             return oct
+    # Shuffle a list so the same octonions aren't given each time through linear search
+    # ks = list(range(1, 241))
+    # random.shuffle(ks)
+    # for k in ks:
+    #     oct = ci.oct_int(n, k)
+    #     if oct is not None and check_primitive(oct):
+    #         return oct
     return None
     
 
@@ -182,7 +190,13 @@ def oct_to_e8(oct):
 
 
 if __name__ == "__main__":
-    p = generate_primitive_octonion(50)
+    user_input = input("Enter an integer as the Octonion norm: ")
+    try:
+        norm = int(user_input)
+        # break  # valid input, exit loop
+    except ValueError:
+        print("Invalid input. Please enter a valid integer.")
+    p = generate_primitive_octonion(norm)
     print("Input:", p)
     left, right = factor_octonion(p)
     print(f"Got {len(left)} left divisors and {len(right)} right divisors")
