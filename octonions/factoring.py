@@ -6,6 +6,7 @@ import math
 import random
 
 from sympy.ntheory import divisor_sigma
+from sympy import isprime
 import algebra
 import cayley_integers as ci
 
