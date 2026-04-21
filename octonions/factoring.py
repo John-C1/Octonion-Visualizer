@@ -199,7 +199,7 @@ if __name__ == "__main__":
                 print("Invalid input (less than 1). Please enter a positive integer.")
                 continue
             elif isprime(norm):
-                print("Invalid input (prime). Please enter a positive integer.")
+                print("Invalid input (prime). Please enter a composite integer.")
                 continue
             break  # valid input, exit loop
         except ValueError:
