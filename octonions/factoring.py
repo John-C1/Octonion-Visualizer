@@ -190,12 +190,19 @@ def oct_to_e8(oct):
 
 
 if __name__ == "__main__":
-    user_input = input("Enter an integer as the Octonion norm: ")
-    try:
-        norm = int(user_input)
-        # break  # valid input, exit loop
-    except ValueError:
-        print("Invalid input. Please enter a valid integer.")
+    while True:
+        user_input = input("Enter a composite integer as the Octonion norm: ")
+        try:
+            norm = int(user_input)
+            if norm < 2:
+                print("Invalid input (less than 1). Please enter a positive integer.")
+                continue
+            elif isprime(norm):
+                print("Invalid input (prime). Please enter a positive integer.")
+                continue
+            break  # valid input, exit loop
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
     p = generate_primitive_octonion(norm)
     print("Input:", p)
     left, right = factor_octonion(p)
