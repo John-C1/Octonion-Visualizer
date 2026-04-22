@@ -31,6 +31,14 @@ exceptional Lie groups.
 
 ---
 
+## Animations
+
+All current animations available hosted on Google Drive!
+
+🎬 **[View Animations](https://drive.google.com/drive/folders/1_71NCnJFDuKjQvrmHw2kdwPtCCBMOE1J)**
+
+> Includes visualizations of non-commutativity, the 240 unit Cayley integers, and Rehm's factorization.
+
 ## Project Structure
 
 ```
