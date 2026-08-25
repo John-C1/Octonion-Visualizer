@@ -50,7 +50,7 @@ All current animations available hosted on Google Drive!
 ```
 
 ### `algebra.py`
-A fully functional octonion calculator. Implements multiplication using the
+A fully functional, ground up octonion calculator. Implements multiplication using the
 Cayley-Dickson construction, along with conjugation, norm, and other core operations.
 
 ### `cayley_integers.py`
